@@ -1,0 +1,45 @@
+/* joins: select all the computers from the products table:
+using the products table and the categories table, return the product name and the category name */
+SELECT *
+FROM bestbuy.products as p
+INNER JOIN bestbuy.categories as c
+ON p.CategoryID = c.CategoryID
+WHERE c.Name = 'Computers';
+
+/* joins: find all product names, product prices, and products ratings that have a rating of 5 */
+SELECT Name, Price, Rating
+FROM bestbuy.products as p
+INNER JOIN bestbuy.reviews as r
+ON p.ProductID = r.ProductID
+WHERE r.Rating = 5;
+ 
+/* joins: find the employee with the most total quantity sold.  use the sum() function and group by */
+SELECT e.EmployeeID, e.FirstName, e.LastName, SUM(s.Quantity)
+FROM bestbuy.employees as e
+INNER JOIN bestbuy.sales as s
+ON e.EmployeeID = s.EmployeeID
+GROUP BY e.EmployeeID, e.LastName
+ORDER BY SUM(s.Quantity) DESC
+LIMIT 3;
+
+/* joins: find the name of the department, and the name of the category for Appliances and Games */
+SELECT d.Name, c.Name
+FROM bestbuy.departments as d
+LEFT JOIN bestbuy.categories as c
+ON d.DepartmentID = c.DepartmentID
+WHERE c.Name = 'Games' OR c.Name = 'Appliances';
+
+/* joins: find the product name, total # sold, and total price sold,
+ for Eagles: Hotel California --You may need to use SUM() */
+SELECT p.Name, SUM(s.Quantity), SUM(s.PricePerUnit)
+FROM bestbuy.products as p
+LEFT JOIN bestbuy.sales as s
+ON p.ProductID = s.ProductID
+WHERE p.Name = 'Eagles: Hotel California';
+
+/* joins: find Product name, reviewer name, rating, and comment on the Visio TV. (only return for the lowest rating!) */
+SELECT p.Name, r.Reviewer, r.rating, r.comment
+FROM bestbuy.products as p
+INNER JOIN bestbuy.reviews as r
+ON p.ProductID = r.ProductID
+WHERE p.Name = 'Visio TV';
